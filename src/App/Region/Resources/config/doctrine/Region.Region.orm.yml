@@ -1,0 +1,11 @@
+App\Region\Model\Region\Region:
+    type: entity
+    table: region
+    id:
+        id:
+            column: id
+            type: string
+    fields:
+        name:
+            column: region_name
+            type: string

@@ -21,9 +21,21 @@ doctrine:
         naming_strategy: doctrine.orm.naming_strategy.underscore
         auto_mapping: true
         mappings:
-            App:
+            User:
                 is_bundle: false
-                type: annotation
-                dir: '%kernel.project_dir%/src/Entity'
-                prefix: 'App\Entity'
-                alias: App
+                type: yml
+                dir: '%kernel.project_dir%/src/App/User/Resources/config/doctrine'
+                prefix: 'App\User\Model'
+                alias: User
+            Patient:
+                is_bundle: false
+                type: yml
+                dir: '%kernel.project_dir%/src/App/Patient/Resources/config/doctrine'
+                prefix: 'App\Patient\Model'
+                alias: Patient
+            Region:
+                is_bundle: false
+                type: yml
+                dir: '%kernel.project_dir%/src/App/Region/Resources/config/doctrine'
+                prefix: 'App\Region\Model'
+                alias: Region

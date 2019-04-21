@@ -1,3 +1,7 @@
-controllers:
-    resource: ../../src/Controller/
+user_controllers:
+    resource: ../../src/App/User/Controller/
+    type: annotation
+
+patient_controllers:
+    resource: ../../src/App/Patient/Controller/
     type: annotation

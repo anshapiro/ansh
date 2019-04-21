@@ -1,0 +1,12 @@
+App\Patient\Model\Status\Status:
+    type: entity
+    table: status
+    id:
+        id:
+            column: id
+            type: string
+    fields:
+        name:
+            column: status_name
+            type: string
+            unique: true

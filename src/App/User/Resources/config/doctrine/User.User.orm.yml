@@ -1,0 +1,36 @@
+App\User\Model\User\User:
+    type: entity
+    table: user
+    id:
+        id:
+            column: id
+            type: string
+    fields:
+        username:
+            column: username
+            type: string
+        email:
+            column: email
+            type: string
+        password:
+            column: password
+            type: string
+        regionId:
+            column: region_id
+            type: string
+            nullable: true
+    embedded:
+        fullName:
+            class: App\User\Model\User\Embedded\UserFullName
+            columnPrefix: false
+    manyToMany:
+        permissions:
+            targetEntity: App\User\Model\Permission\Permission
+            joinTable:
+                name: user_permissions
+                joinColumns:
+                    user_id:
+                        referencedColumnName: id
+                inverseJoinColumns:
+                    permission_id:
+                        referencedColumnName: id

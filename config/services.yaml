@@ -1,28 +1,61 @@
-# This file is the entry point to configure your own services.
-# Files in the packages/ subdirectory configure your dependencies.
-
-# Put parameters here that don't need to change on each machine where the app is deployed
-# https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
-    locale: 'en'
+    locale: '%env(LOCALE)%'
 
 services:
-    # default configuration for services in *this* file
     _defaults:
-        autowire: true      # Automatically injects dependencies in your services.
-        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+        autowire: true
+        autoconfigure: true
 
-    # makes classes in src/ available to be used as services
-    # this creates a service per class whose id is the fully-qualified class name
+    Base\:
+        resource: '../src/Base/*'
+        exclude: '../src/Base/{DependencyInjection,Entity,Migration,Kernel.php}'
+
     App\:
-        resource: '../src/*'
-        exclude: '../src/{DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
+        resource: '../src/App/*'
+        exclude: '../src/App/{DependencyInjection,Entity,Migration,Kernel.php}'
 
-    # controllers are imported separately to make sure services can be injected
-    # as action arguments even if you don't extend any base controller class
-    App\Controller\:
-        resource: '../src/Controller'
+    App\User\Controller\:
+        resource: '../src/App/User/Controller'
         tags: ['controller.service_arguments']
 
-    # add more service definitions when explicit configuration is needed
-    # please note that last definitions always *replace* previous ones
+    App\Patient\Controller\:
+        resource: '../src/App/Patient/Controller'
+        tags: ['controller.service_arguments']
+
+    base.serializer.normalizer.entity:
+        class: 'Base\Utils\Serializer\Symfony\Normalizer\EntityNormalizer'
+        public: false
+        autowire: true
+        autoconfigure: true
+        tags:
+            - { name: serializer.normalizer }
+
+    App\User\Utils\PasswordEncoder\Symfony\PasswordEncoder:
+        class: App\User\Utils\PasswordEncoder\Symfony\PasswordEncoder
+        arguments:
+            - '%env(SALT)%'
+
+    App\User\DataFixtures\UserFixture:
+        class: App\User\DataFixtures\UserFixture
+        arguments:
+            - '@App\User\Action\User\Create\CreateUserAction'
+
+    App\Patient\DataFixtures\PatientFixture:
+        class: App\Patient\DataFixtures\PatientFixture
+        arguments:
+            - '@App\Patient\Action\Patient\Create\CreatePatientAction'
+
+    App\Region\DataFixtures\RegionFixture:
+        class: App\Region\DataFixtures\RegionFixture
+        arguments:
+            - '@App\Region\Action\Region\Create\CreateRegionAction'
+
+    Base\Command\FillDevDatabaseCommand:
+        class: Base\Command\FillDevDatabaseCommand
+        arguments:
+            - '%env(APP_ENV)%'
+
+    Base\Command\CreateAdminUserCommand:
+        class: Base\Command\CreateAdminUserCommand
+        arguments:
+            - '@App\User\Action\User\Create\CreateUserAction'

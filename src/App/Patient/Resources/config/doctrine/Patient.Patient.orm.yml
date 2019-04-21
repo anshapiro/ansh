@@ -1,0 +1,25 @@
+App\Patient\Model\Patient\Patient:
+    type: entity
+    table: patient
+    id:
+        id:
+            column: id
+            type: string
+    fields:
+        regionId:
+            column: region_id
+            type: string
+            nullable: true
+        creationDate:
+            column: creation_date
+            type: datetime_immutable
+    embedded:
+        fullName:
+            class: App\Patient\Model\Patient\Embedded\PatientFullName
+            columnPrefix: false
+    manyToOne:
+        status:
+            targetEntity: App\Patient\Model\Status\Status
+            joinColumn:
+                name: status_id
+                referencedColumnName: id

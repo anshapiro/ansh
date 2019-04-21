@@ -1,0 +1,13 @@
+App\Patient\Model\Patient\Embedded\PatientFullName:
+    type: embeddable
+    fields:
+        name:
+            column: first_name
+            type: string
+        surname:
+            column: last_name
+            type: string
+        patronymic:
+            column: patronymic
+            type: string
+            nullable: true

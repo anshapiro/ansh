@@ -1,0 +1,11 @@
+App\User\Model\Permission\Permission:
+    type: entity
+    table: permission
+    id:
+        id:
+            column: id
+            type: string
+    embedded:
+        name:
+            class: App\User\Model\Permission\Embedded\PermissionName
+            columnPrefix: false

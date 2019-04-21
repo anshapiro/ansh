@@ -1,0 +1,9 @@
+App\User\Model\Permission\Embedded\PermissionName:
+    type: embeddable
+    fields:
+        categoryName:
+            column: category_name
+            type: string
+        permissionName:
+            column: permission_name
+            type: string
