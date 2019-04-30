@@ -3,20 +3,16 @@
 namespace Base\Command;
 
 use App\User\Action\User\UserActionInterface;
-use App\User\Model\User\UserRepositoryInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Console\Command\Command;
+use App\User\Model\User\UserRepositoryInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use App\User\Model\Permission\PermissionInterface;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 final class CreateAdminUserCommand extends Command
 {
-    private const DEFAULT_ADMIN_USERNNAME = 'admin';
-
     private const SUCCESS_MESSAGE_TYPE = 'success';
     private const SECTION_MESSAGE_TYPE = 'section';
     private const NOTE_MESSAGE_TYPE = 'note';
@@ -39,21 +35,47 @@ final class CreateAdminUserCommand extends Command
     /** @var SymfonyStyle */
     private $io;
 
+    /** @var array */
+    private $adminData;
+
     /** @var bool */
     private $showMessages = true;
-
-    /** @var array */
-    private $adminData = [];
 
     /**
      * CreateAdminUserCommand constructor.
      *
+     * @param string $adminUsername
+     * @param string $adminEmail
+     * @param string $adminPassword
+     * @param string $adminSurname
+     * @param string $adminName
+     * @param string|null $adminPatronymic
      * @param UserActionInterface $action
      * @param ObjectManager $om
      * @param UserRepositoryInterface $userRepository
      */
-    public function __construct(UserActionInterface $action, ObjectManager $om, UserRepositoryInterface $userRepository)
-    {
+    public function __construct(
+        string $adminUsername,
+        string $adminEmail,
+        string $adminPassword,
+        string $adminSurname,
+        string $adminName,
+        ?string $adminPatronymic,
+        UserActionInterface $action,
+        ObjectManager $om,
+        UserRepositoryInterface $userRepository
+    ) {
+        $this->adminData = [
+            'username' => $adminUsername,
+            'email' => $adminEmail,
+            'password' => $adminPassword,
+            'fullName' => [
+                'surname' => $adminSurname,
+                'name' => $adminName,
+                'patronymic' => $adminPatronymic,
+            ],
+        ];
+
         $this->createUserAction = $action;
         $this->om = $om;
         $this->userRepository = $userRepository;
@@ -65,11 +87,6 @@ final class CreateAdminUserCommand extends Command
     {
         $this
             ->setDescription('Create admin user')
-            ->addArgument('email', InputArgument::REQUIRED,'User email')
-            ->addArgument('password', InputArgument::REQUIRED,'User password')
-            ->addArgument('surname', InputArgument::REQUIRED,'User surname')
-            ->addArgument('name', InputArgument::REQUIRED,'User name')
-            ->addArgument('patronymic', InputArgument::OPTIONAL,'User patronymic')
             ->addOption(
                 'show-messages',
                 'sm',
@@ -90,11 +107,7 @@ final class CreateAdminUserCommand extends Command
 
 
         if ($this->isUnique()) {
-            $this
-                ->processArguments($input)
-                ->createUser();
-
-            $this->message('Successfully finished!', self::SUCCESS_MESSAGE_TYPE);
+            $this->createUser();
         }
 
         $this->resetClassVariables();
@@ -103,41 +116,16 @@ final class CreateAdminUserCommand extends Command
     /** @return bool */
     private function isUnique(): bool
     {
-        $isUnique = $this->userRepository->findOneBy(['username' => self::DEFAULT_ADMIN_USERNNAME]) === null;
+        $isUnique = $this->userRepository->findOneBy(['username' => $this->adminData['username']]) === null;
 
         if ($isUnique === false) {
             $this->message(
-                sprintf('Admin with username "%s" already exists!', self::DEFAULT_ADMIN_USERNNAME),
+                sprintf('Admin with username "%s" already exists!', $this->adminData['username']),
                 self::NOTE_MESSAGE_TYPE
             );
         }
 
         return $isUnique;
-    }
-
-    /**
-     * @param InputInterface $input
-     *
-     * @return CreateAdminUserCommand
-     */
-    private function processArguments(InputInterface $input): self
-    {
-        $this->message('Processing input arguments...', self::SECTION_MESSAGE_TYPE);
-
-        $this->adminData = $input->getArguments();
-        $this->adminData['username'] = self::DEFAULT_ADMIN_USERNNAME;
-        $this->adminData['permissions'] = PermissionInterface::PERMISSIONS;
-
-        foreach (['name', 'surname', 'patronymic'] as $argumentName) {
-            if (\array_key_exists($argumentName, $this->adminData)) {
-                $this->adminData['fullName'][$argumentName] = $this->adminData[$argumentName];
-                unset($this->adminData[$argumentName]);
-            }
-        }
-
-        $this->message('Input arguments have been successfully processed!', self::SUCCESS_MESSAGE_TYPE);
-
-        return $this;
     }
 
     /** @return CreateAdminUserCommand */
@@ -156,7 +144,6 @@ final class CreateAdminUserCommand extends Command
     private function resetClassVariables(): void
     {
         $this->showMessages = true;
-        $this->adminData = [];
     }
 
     /**

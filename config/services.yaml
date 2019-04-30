@@ -58,4 +58,10 @@ services:
     Base\Command\CreateAdminUserCommand:
         class: Base\Command\CreateAdminUserCommand
         arguments:
+            - '%env(ADMIN_USERNAME)%'
+            - '%env(ADMIN_EMAIL)%'
+            - '%env(ADMIN_PASSWORD)%'
+            - '%env(ADMIN_SURNAME)%'
+            - '%env(ADMIN_NAME)%'
+            - '%env(ADMIN_PATRONYMIC)%'
             - '@App\User\Action\User\Create\CreateUserAction'
