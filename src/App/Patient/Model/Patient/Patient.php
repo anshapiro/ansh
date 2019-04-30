@@ -2,6 +2,7 @@
 
 namespace App\Patient\Model\Patient;
 
+use App\Patient\Model\Patient\Embedded\PatientAddressInterface;
 use Ramsey\Uuid\Uuid;
 use App\Patient\Model\Status\StatusInterface;
 use App\Patient\Model\Patient\Embedded\PatientFullNameInterface;
@@ -22,6 +23,9 @@ class Patient implements PatientInterface
 
     /** @var StatusInterface */
     private $status;
+
+    /** @var PatientAddressInterface */
+    private $address;
 
     /** Patient constructor. */
     public function __construct()
@@ -122,6 +126,24 @@ class Patient implements PatientInterface
     public function setStatus(StatusInterface $status): PatientInterface
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    /** @return PatientAddressInterface */
+    public function getAddress(): PatientAddressInterface
+    {
+        return $this->address;
+    }
+
+    /**
+     * @param PatientAddressInterface $address
+     *
+     * @return PatientInterface
+     */
+    public function setAddress(PatientAddressInterface $address): PatientInterface
+    {
+        $this->address = $address;
 
         return $this;
     }

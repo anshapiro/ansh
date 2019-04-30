@@ -5,7 +5,7 @@ namespace App\User\Model\User;
 use App\User\Model\Permission\PermissionInterface;
 use App\User\Model\User\Embedded\UserFullNameInterface;
 
-interface UserInterface extends UserPermissionsInterface
+interface UserInterface
 {
     public const ALIAS = 'user';
 

@@ -76,9 +76,15 @@ final class Api
         for ($i = 1; $i <= 100; ++$i) {
             $clients[] = [
                 'fullName' => [
-                    'name' => sprintf('Name%s', $i),
-                    'surname' => sprintf('Surname%s', $i),
-                    'patronymic' => sprintf('Patronymic%s', $i),
+                    'name' => 'Name' . $i,
+                    'surname' => 'Surname' . $i,
+                    'patronymic' => 'Patronymic' . $i,
+                ],
+                'address' => [
+                    'postcode' => (string) (224000 + $i),
+                    'city' => 'City' . $i,
+                    'street' => 'Street' . $i,
+                    'houseNumber' => (string) ($i % 10 !== 0 ? random_int(1, 9) : null),
                 ],
                 'status' => StatusInterface::DEFAULT_STATUS_NAME,
             ];

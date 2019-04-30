@@ -1,8 +1,8 @@
 <?php
 
-namespace App\User\Model\User;
+namespace Base\Model;
 
-interface UserPermissionsInterface
+interface BaseUserInterface
 {
     public function hasCreateUserAccess(): bool;
 

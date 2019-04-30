@@ -2,8 +2,8 @@
 
 namespace App\Patient\Handler\Patient;
 
-use Base\Exception\MethodNotFoundException;
 use Base\Exception\MissingValueException;
+use Base\Exception\MethodNotFoundException;
 use Base\Utils\Pagination\AbstractPagination;
 use App\Patient\Exception\RegionNotFoundException;
 use App\Patient\Model\Region\RegionRepositoryInterface;
@@ -37,8 +37,6 @@ final class GetPatientListHandler extends AbstractPagination
     }
 
     /**
-     * TODO Get all data with SQL
-     *
      * @param array $query
      *
      * @return array
@@ -59,7 +57,12 @@ final class GetPatientListHandler extends AbstractPagination
         ];
     }
 
-    /** @param array $query */
+    /**
+     * @param array $query
+     *
+     * @throws MethodNotFoundException
+     * @throws MissingValueException
+     */
     private function handleQuery(array $query): void
     {
         foreach (self::REQUIRED as $required) {
@@ -95,12 +98,7 @@ final class GetPatientListHandler extends AbstractPagination
         }
     }
 
-    /** @return string */
-    private function getRegionId(): string
-    {
-        return $this->regionId;
-    }
-
+    /** @throws RegionNotFoundException */
     public function isThereARegion(): void
     {
         if ($this->regionRepository->find($this->getRegionId()) === null) {
@@ -112,6 +110,12 @@ final class GetPatientListHandler extends AbstractPagination
                 ['regionId' => $this->getRegionId()]
             );
         }
+    }
+
+    /** @return string */
+    private function getRegionId(): string
+    {
+        return $this->regionId;
     }
 
     /** @param string $regionId */

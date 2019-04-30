@@ -17,6 +17,9 @@ App\Patient\Model\Patient\Patient:
         fullName:
             class: App\Patient\Model\Patient\Embedded\PatientFullName
             columnPrefix: false
+        address:
+            class: App\Patient\Model\Patient\Embedded\PatientAddress
+            columnPrefix: false
     manyToOne:
         status:
             targetEntity: App\Patient\Model\Status\Status

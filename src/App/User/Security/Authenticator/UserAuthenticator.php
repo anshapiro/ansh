@@ -2,9 +2,9 @@
 
 namespace App\User\Security\Authenticator;
 
-use App\User\Exception\UserNotFoundException;
 use App\User\Model\User\UserInterface;
 use App\User\Exception\ForbiddenException;
+use App\User\Exception\UserNotFoundException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Csrf\CsrfToken;
@@ -69,14 +69,14 @@ final class UserAuthenticator extends AbstractFormLoginAuthenticator
     /**
      * @param Request $request
      *
-     * @throws \Exception
+     * @throws ForbiddenException
      *
      * @return array
      */
     public function getCredentials(Request $request): array
     {
         if (($session = $request->getSession()) === null) {
-            throw new ForbiddenException('Invalid request session');
+            throw new ForbiddenException('User session not found');
         }
 
         $credentials = [
@@ -93,6 +93,8 @@ final class UserAuthenticator extends AbstractFormLoginAuthenticator
     /**
      * @param mixed $credentials
      * @param UserProviderInterface $userProvider
+     *
+     * @throws UserNotFoundException
      *
      * @return UserInterface
      */
@@ -116,7 +118,7 @@ final class UserAuthenticator extends AbstractFormLoginAuthenticator
             );
         }
 
-        return $this->userRepository->findOneBy(['username' => $credentials['username']]);
+        return $user;
     }
 
     /**

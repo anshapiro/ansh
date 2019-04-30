@@ -2,26 +2,22 @@
 
 namespace App\User\Controller;
 
-use App\User\Model\User\UserInterface;
+use Base\Security\Voter\UserVoterInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use App\User\Model\Permission\PermissionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 final class UserController extends AbstractController
 {
     /**
-     * @Route("/users", name="users", methods={"GET"})
+     * @Route("/api/v1/users", name="api/v1/get_user_list", methods={"GET"})
      *
      * @return JsonResponse
      */
-    public function users(): JsonResponse
+    public function getUserList(): JsonResponse
     {
-        /** @var UserInterface $user */
-        $user = $this->getUser();
+        $this->denyAccessUnlessGranted(UserVoterInterface::MANAGE_USER_ACCESS);
 
-        $this->denyAccessUnlessGranted(PermissionInterface::VIEW_USER_PERMISSION, $user);
-
-        return new JsonResponse(sprintf('Welcome, %s!', $user->getFullName()->full()));
+        return new JsonResponse(sprintf('Welcome, %s!', $this->getUser()->getFullName()->full()));
     }
 }
