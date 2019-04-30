@@ -1,0 +1,16 @@
+App\Patient\Model\Patient\Embedded\PatientAddress:
+    type: embeddable
+    fields:
+        postcode:
+            column: postcode
+            type: string
+        city:
+            column: city
+            type: string
+        street:
+            column: street
+            type: string
+        houseNumber:
+            column: house_number
+            type: string
+            nullable: true

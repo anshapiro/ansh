@@ -3,14 +3,15 @@
 namespace App\User\Model\User;
 
 use Ramsey\Uuid\Uuid;
+use Base\Model\BaseUserInterface;
 use App\User\Model\Permission\Permission;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use App\User\Model\Permission\PermissionInterface;
 use App\User\Model\User\Embedded\UserFullNameInterface;
-use Symfony\Component\Security\Core\User\UserInterface as BaseUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface as SymfonyUserInterface;
 
-class User implements UserInterface, BaseUserInterface
+class User implements UserInterface, BaseUserInterface, SymfonyUserInterface
 {
     #################### CLASS PROPERTIES ####################
 
@@ -212,7 +213,7 @@ class User implements UserInterface, BaseUserInterface
 
     #################### END OF USER INTERFACE ####################
 
-    #################### USER PERMISSIONS INTERFACE ####################
+    #################### BASE USER INTERFACE ####################
 
     /** @return bool */
     public function hasCreateUserAccess(): bool
@@ -244,7 +245,7 @@ class User implements UserInterface, BaseUserInterface
         });
     }
 
-    #################### END OF USER PERMISSIONS INTERFACE
+    #################### END OF BASE USER INTERFACE
 
     #################### SYMFONY USER INTERFACE ####################
 

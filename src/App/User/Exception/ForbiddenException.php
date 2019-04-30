@@ -15,9 +15,9 @@ final class ForbiddenException extends BaseException
      * @param null|\Throwable $previous
      */
     public function __construct(
-        string $message = 'User module: forbidden',
+        string $message = 'Forbidden',
         array $placeholders = [],
-        int $code = 404,
+        int $code = 403,
         ?\Throwable $previous = null
     ) {
         parent::__construct($message, $placeholders, $code, $previous);

@@ -2,8 +2,9 @@
 
 namespace App\Patient\Model\Patient;
 
-use App\Patient\Model\Patient\Embedded\PatientFullNameInterface;
 use App\Patient\Model\Status\StatusInterface;
+use App\Patient\Model\Patient\Embedded\PatientAddressInterface;
+use App\Patient\Model\Patient\Embedded\PatientFullNameInterface;
 
 interface PatientInterface
 {
@@ -28,4 +29,8 @@ interface PatientInterface
     public function getStatus(): StatusInterface;
 
     public function setStatus(StatusInterface $status): PatientInterface;
+
+    public function getAddress(): PatientAddressInterface;
+
+    public function setAddress(PatientAddressInterface $address): PatientInterface;
 }
