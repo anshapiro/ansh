@@ -117,11 +117,6 @@ final class FillDevDatabaseCommand extends Command
 
         $greetInput = new ArrayInput([
             'command' => 'base:create-admin-user',
-            'email' => Api::$admin['email'],
-            'password' => Api::$admin['password'],
-            'surname' => Api::$admin['fullName']['surname'],
-            'name' => Api::$admin['fullName']['name'],
-            'patronymic' => Api::$admin['fullName']['patronymic'],
             '--show-messages' => false,
         ]);
         $greetInput->setInteractive(false);

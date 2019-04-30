@@ -8,17 +8,6 @@ final class Api
 {
     #################### USERS ####################
 
-    public static $admin = [
-        'username' => 'admin',
-        'email' => 'ansh.web.dev@gmail.com',
-        'password' => 123,
-        'fullName' => [
-            'name' => 'Andrey',
-            'surname' => 'Shapiro',
-            'patronymic' => 'Alexandrovich',
-        ],
-    ];
-
     public static $viewer = [
         'username' => 'viewer',
         'email' => 'viewer@example.com',
