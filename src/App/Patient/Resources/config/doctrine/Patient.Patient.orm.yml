@@ -20,6 +20,9 @@ App\Patient\Model\Patient\Patient:
         address:
             class: App\Patient\Model\Patient\Embedded\PatientAddress
             columnPrefix: false
+        phone:
+            class: App\Patient\Model\Patient\Embedded\PatientPhone
+            columnPrefix: false
     manyToOne:
         status:
             targetEntity: App\Patient\Model\Status\Status
