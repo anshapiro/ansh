@@ -2,7 +2,7 @@
 
 namespace Help;
 
-use App\Patient\Model\Status\StatusInterface;
+use Help\Api\ClientApi;
 
 final class Api
 {
@@ -54,32 +54,7 @@ final class Api
 
     public static function init(): void
     {
-        self::$clients = self::initClients();
-    }
-
-    /** @return array */
-    public static function initClients(): array
-    {
-        $clients = [];
-
-        for ($i = 1; $i <= 100; ++$i) {
-            $clients[] = [
-                'fullName' => [
-                    'name' => 'Name' . $i,
-                    'surname' => 'Surname' . $i,
-                    'patronymic' => 'Patronymic' . $i,
-                ],
-                'address' => [
-                    'postcode' => (string) (224000 + $i),
-                    'city' => 'City' . $i,
-                    'street' => 'Street' . $i,
-                    'houseNumber' => (string) ($i % 10 !== 0 ? random_int(1, 9) : null),
-                ],
-                'status' => StatusInterface::DEFAULT_STATUS_NAME,
-            ];
-        }
-
-        return $clients;
+        self::$clients = ClientApi::initClients();
     }
 
     #################### END OF INIT ####################

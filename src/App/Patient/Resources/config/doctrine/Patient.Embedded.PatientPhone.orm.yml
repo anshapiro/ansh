@@ -1,0 +1,12 @@
+App\Patient\Model\Patient\Embedded\PatientPhone:
+    type: embeddable
+    fields:
+        countryCode:
+            column: country_code
+            type: string
+        phoneCode:
+            column: phone_code
+            type: string
+        phoneNumber:
+            column: phone_number
+            type: string

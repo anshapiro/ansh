@@ -2,7 +2,6 @@
 
 namespace Base\Command;
 
-use Help\Api;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -67,7 +66,7 @@ final class FillDevDatabaseCommand extends Command
     /** @return bool */
     private function isEnvironmentAvailable(): bool
     {
-        $isAvailable = \in_array($this->env, self::AVAILABLE_ENVIRONMENTS);
+        $isAvailable = \in_array($this->env, self::AVAILABLE_ENVIRONMENTS, true);
 
         if (!$isAvailable) {
             $this->io->warning(sprintf('Environment "%s" is not available for filling!', $this->env));
@@ -109,6 +108,7 @@ final class FillDevDatabaseCommand extends Command
         return $this;
     }
 
+    /** @return FillDevDatabaseCommand */
     private function createAdminUser(): self
     {
         $this->io->section('Creating admin user...');

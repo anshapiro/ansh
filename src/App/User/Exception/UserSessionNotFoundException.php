@@ -4,10 +4,10 @@ namespace App\User\Exception;
 
 use Base\Exception\BaseException;
 
-final class ForbiddenException extends BaseException
+final class UserSessionNotFoundException extends BaseException
 {
     /**
-     * ForbiddenException constructor.
+     * UserSessionNotFoundException constructor.
      *
      * @param string $message
      * @param array $placeholders
@@ -15,9 +15,9 @@ final class ForbiddenException extends BaseException
      * @param null|\Throwable $previous
      */
     public function __construct(
-        string $message = 'Forbidden',
+        string $message = 'User session not found',
         array $placeholders = [],
-        int $code = 403,
+        int $code = 404,
         ?\Throwable $previous = null
     ) {
         parent::__construct($message, $placeholders, $code, $previous);
